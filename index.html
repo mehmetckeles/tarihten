@@ -9,7 +9,7 @@
 <meta property="og:title" content="Tarihten Köpekler">
 <meta property="og:description" content="Köpek ve insanlık tarihi üzerine Türkçe yazılar. Her sabah yeni bir yazı.">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://tarihten.mehmetcihatkeles.com/">
+<meta property="og:url" content="https://mehmetcihatkeles.com/tarihten/">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%231A1814'/%3E%3Ctext x='32' y='45' text-anchor='middle' font-family='Georgia,serif' font-size='38' font-style='italic' fill='%23D6A65E'%3ET%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -280,6 +280,22 @@ button.nudge-go { width: 100%; text-align: left; font: inherit; color: inherit; 
 @media (max-width: 520px) { .ix { grid-template-columns: 1fr; } }
 .empty { color: var(--muted); font-style: italic; padding: 1.4rem 0; }
 
+.kavsak { border-top: 1px solid var(--rule); padding: 2.4rem max(16px, env(safe-area-inset-left, 0px)) 1rem; }
+.kv-in { max-width: var(--measure); margin: 0 auto; }
+.kv-tick { margin: 0 0 1rem; }
+.kv-grid { display: grid; gap: .8rem; }
+.kv-card { display: grid; gap: .25rem; text-decoration: none; color: var(--fg); border: 1px solid var(--rule); border-radius: 10px; padding: 1rem 1.15rem; background: var(--surface, transparent); }
+.kv-card:hover { border-color: var(--accent); }
+.kv-n { font-variant-caps: all-small-caps; letter-spacing: .09em; color: var(--accent); font-size: 1rem; }
+.kv-card[data-okul="okula"] .kv-n { color: #4A8A70; } .kv-card[data-okul="finansal"] .kv-n { color: #C8452F; }
+.kv-l { font-style: italic; color: var(--muted); font-size: 1rem; }
+.kv-t { font-size: 1.3rem; line-height: 1.25; }
+.kv-m { color: var(--muted); font-size: .95rem; }
+.kv-imza { display: flex; align-items: center; gap: 1rem; margin-top: 2rem; padding-top: 1.3rem; border-top: 1px solid var(--rule); text-decoration: none; color: var(--fg); }
+.kv-imza img { width: 56px; height: 56px; border-radius: 50%; object-fit: cover; border: 1px solid var(--rule); flex: none; }
+.kv-imza b { display: block; font-weight: 600; font-size: 1.15rem; }
+.kv-imza span span { display: block; color: var(--muted); font-size: 1rem; line-height: 1.4; }
+
 footer {
   border-top: 1px solid var(--rule);
   padding-left: max(16px, env(safe-area-inset-left, 0px));
@@ -308,10 +324,12 @@ footer {
 
 <main id="app"><div class="col"><p class="meta" style="padding-top:3rem">Yazılar yükleniyor…</p></div></main>
 
+<section class="kavsak" aria-label="Öteki okullar"><div class="kv-in"><p class="lbl kv-tick">Öteki okullar</p><div class="kv-grid"><a class="kv-card" href="/okula/" data-okul="okula"><span class="kv-n">↗ Köpeksel Bilgiler Okulası</span><span class="kv-l">Köpeklerle kurduğumuz bağ üzerine 59 deneme</span><span class="kv-t">Okuyun, öğrenin.</span><span class="kv-m">rotalar ve çatallar</span></a><a class="kv-card" href="/finansal/" data-okul="finansal"><span class="kv-n">↗ Finansal Bilgiler Okulası</span><span class="kv-l">Babson’dan Shiller’e, fiyatın izini sürenler</span><span class="kv-t">Fiyat nedir, nereye gider, izini nasıl süreriz?</span><span class="kv-m">sırayla okunan yazı dizileri</span></a></div><a class="kv-imza" href="/"><img src="/img/portre-kucuk.jpg" alt="" width="56" height="56" loading="lazy"><span><b>Mehmet Cihat Keleş</b><span>Köpek eğitmeni ve yazar · Hokairi Köpek Evi’nin kurucusu →</span></span></a></div></section>
+
 <footer>
   <div class="foot-in">
     <span>Tarihten <em>Köpekler</em> · arşivi tutan Mehmet Cihat Keleş</span>
-    <span>Kardeş okullar: <a href="https://okula.mehmetcihatkeles.com/">Köpeksel Bilgiler Okulası</a> · <a href="https://finansal.mehmetcihatkeles.com/">Finansal Bilgiler Okulası</a></span>
+    <span>Kardeş okullar: <a href="/okula/">Köpeksel Bilgiler Okulası</a> · <a href="/finansal/">Finansal Bilgiler Okulası</a></span>
   </div>
 </footer>
 
