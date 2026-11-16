@@ -309,6 +309,15 @@ footer {
 .foot-in a:hover { color: var(--accent); }
 .foot-in em { font-style: normal; color: var(--accent); }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } }
+
+/* Ana siteye dönüş: telefonda yukarı kaydırınca beliren satır */
+.donus{position:fixed;left:0;right:0;top:0;z-index:9;display:none;align-items:center;gap:.6rem;padding:.55rem max(16px,env(safe-area-inset-left,0px));background:var(--bg);border-bottom:1px solid var(--rule);font-family:inherit;font-size:.92rem;line-height:1.3;color:var(--muted);text-decoration:none;transform:translateY(-110%);opacity:0;pointer-events:none;transition:transform .28s ease,opacity .28s ease}
+.donus img{width:26px;height:26px;border-radius:50%;object-fit:cover;flex:none}
+.donus b{color:var(--fg);font-weight:600}
+.donus:hover b,.donus:focus-visible b{color:var(--accent)}
+.donus.acik{transform:none;opacity:1;pointer-events:auto}
+@media (max-width:640px){.donus{display:flex}}
+@media (prefers-reduced-motion:reduce){.donus{transition:none}}
 </style>
 </head>
 <body>
@@ -323,6 +332,8 @@ footer {
   </div>
   <div id="progress"></div>
 </header>
+<a class="donus" href="/" aria-label="Mehmet Cihat Keleş, ana sayfa"><img src="/img/portre-kucuk.jpg" alt="" width="26" height="26"><span><b>Mehmet Cihat Keleş</b> · ana sayfa →</span></a>
+
 
 <main id="app"><div class="col"><p class="meta" style="padding-top:3rem">Yazılar yükleniyor…</p></div></main>
 
@@ -883,6 +894,15 @@ else fetch('articles.json', { cache: 'no-cache' })
   .then(boot)
   .catch(err => { console.error(err);
     document.getElementById('app').innerHTML = '<div class="col"><section class="intro"><h1>Yazılar yüklenemedi</h1><p>Arşiv dosyasına ulaşılamadı. Sayfayı yenilemeyi deneyin.</p></section></div>'; });
+</script>
+<script>
+/* Ana siteye dönüş satırı: okur yukarı kaydırınca belirir, aşağı okumaya dönünce çekilir */
+(function(){var d=document.querySelector('.donus');if(!d)return;var h=document.querySelector('.bar');var last=window.scrollY,up=0;
+function yer(){var t=h?Math.max(0,h.getBoundingClientRect().bottom):0;d.style.top=t+'px';}
+function kapa(){d.classList.remove('acik');up=0;}
+window.addEventListener('scroll',function(){var y=window.scrollY,dy=y-last;last=y;if(y<160){kapa();return;}
+if(dy<0){up-=dy;if(up>40){yer();d.classList.add('acik');}}else if(dy>0){kapa();}},{passive:true});
+window.addEventListener('resize',yer);window.addEventListener('hashchange',kapa);})();
 </script>
 </body>
 </html>
