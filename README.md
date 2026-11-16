@@ -2,7 +2,7 @@
 
 Köpek ve insanlık tarihi üzerine Türkçe yazılar.
 
-Yayında: https://mehmetckeles.github.io/kopek-arsivi/
+Yayında: https://mehmetcihatkeles.com/tarihten/
 
 ## Yapı
 
