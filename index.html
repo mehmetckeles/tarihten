@@ -76,6 +76,8 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 .mark { text-decoration: none; font-size: 1.22rem; font-weight: 600; white-space: nowrap; display: flex; gap: .55rem; align-items: baseline; }
 .mark .sep { color: var(--rule); font-weight: 400; }
 .mark .brand em { font-style: normal; color: var(--accent); }
+.mark a { text-decoration: none; }
+.mark a.author:hover { color: var(--accent); }
 .nav { display: flex; gap: 1.25rem; align-items: baseline; font-size: 1.02rem; color: var(--muted); }
 .nav a { text-decoration: none; }
 .nav a:hover, .nav button:hover, .nav .on { color: var(--fg); }
@@ -312,7 +314,7 @@ footer {
 <body>
 <header class="bar">
   <div class="bar-in">
-    <a class="mark" href="#" data-home="1"><span class="author">Mehmet Cihat Keleş</span><span class="sep">|</span><span class="brand">Tarihten <em>Köpekler</em></span></a>
+    <div class="mark"><a class="author" href="/" title="Mehmet Cihat Keleş’in sitesi">Mehmet Cihat Keleş</a><span class="sep">|</span><a class="brand" href="#" data-home="1">Tarihten <em>Köpekler</em></a></div>
     <nav class="nav" aria-label="Site">
       <a href="#/kesfet" id="nav-kesfet">Keşfet</a>
       <button type="button" data-random="1" title="Rastgele bir yazı (R)">Rastgele</button>
@@ -328,7 +330,7 @@ footer {
 
 <footer>
   <div class="foot-in">
-    <span>Tarihten <em>Köpekler</em> · arşivi tutan Mehmet Cihat Keleş</span>
+    <span>Tarihten <em>Köpekler</em> · arşivi tutan <a href="/">Mehmet Cihat Keleş</a></span>
     <span>Kardeş okullar: <a href="/okula/">Köpeksel Bilgiler Okulası</a> · <a href="/finansal/">Finansal Bilgiler Okulası</a></span>
   </div>
 </footer>
