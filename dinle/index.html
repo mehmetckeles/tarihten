@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tarihten Köpekler · Dinle</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap">
+<style>
+/* VOICE: gece, sakin, az renk; bir radyo programının sessiz kapısı
+   IDEA: bir kazı kesiti — her bölüm topraktaki bir katman; aşağı indikçe geçmişe
+   PICTURE: üstten alta koyulaşan toprak katmanları, dalgalı sınırlar, kazılmış katmanda yanan bir lamba
+   COLOUR and TYPE: gece toprağı kahveleri, okuma sitesinin kehribarı; EB Garamond
+   LAYOUT: başlık, kesit (liste ve resim aynı şey), altta sabit dinleme çubuğu */
+:root{color-scheme:dark;--bg:#14120f;--ink:#ece5d7;--muted:#a39a8a;--rule:#2e2a23;--amber:#d6a65e;--amber-soft:rgba(214,166,94,.16);
+--serif:'EB Garamond',Garamond,'Iowan Old Style','Palatino Linotype','Times New Roman',serif}
+:root[data-theme=light],:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.55 var(--serif);overflow-x:clip;padding-bottom:120px}
+a{color:var(--amber)}
+button{font:inherit;color:inherit}
+.wrap{max-width:760px;margin:0 auto;padding:0 max(18px,env(safe-area-inset-left,0px))}
+header{padding:clamp(28px,6vw,56px) 0 22px}
+.mark{font-style:italic;color:var(--amber);font-size:17px;letter-spacing:.01em;text-decoration:none}
+h1{font-weight:500;font-size:clamp(40px,8vw,56px);line-height:1.02;margin:.25em 0 .3em;text-wrap:balance}
+.lede{font-size:clamp(17px,2.4vw,19px);color:var(--ink);max-width:34em;margin:0}
+.hint{color:var(--muted);font-size:15px;margin:14px 0 0;font-style:italic}
+
+/* yüzey: çim/sokak çizgisi */
+.surface{position:relative;height:34px;margin:22px 0 12px}
+.surface svg{position:absolute;inset:0;width:100%;height:100%}
+.now{position:absolute;right:0;top:0;font-size:14px;color:var(--muted);font-style:italic}
+
+/* kesit: ayrı katmanlar + sol kenarda kazı cetveli */
+.section{position:relative;padding-left:26px}
+.section::before{content:"";position:absolute;left:8px;top:6px;bottom:6px;width:1px;background:linear-gradient(#6b5a40,#3a3126 60%,#2a241c)}
+.layer{position:relative;background:var(--c);border-radius:12px;margin:0 0 10px;border:1px solid rgba(255,255,255,.06);box-shadow:inset 0 1px 0 rgba(255,255,255,.05),0 6px 14px -8px rgba(0,0,0,.6);transition:border-color .2s}
+.layer:last-child{margin-bottom:0}
+.layer::before{content:"";position:absolute;left:-22px;top:30px;width:9px;height:9px;border-radius:50%;background:var(--bg);border:1px solid #6b5a40}
+.layer.ready::before{background:var(--amber);border-color:var(--amber);box-shadow:0 0 10px 2px rgba(214,166,94,.45)}
+.layer.open{border-color:rgba(214,166,94,.35)}
+.layer::after{content:"";position:absolute;inset:0;border-radius:12px;pointer-events:none;opacity:.45;
+ background-image:radial-gradient(circle at 20% 30%,rgba(255,255,255,.05) 0 1.5px,transparent 2px),radial-gradient(circle at 70% 60%,rgba(0,0,0,.25) 0 2px,transparent 2.5px),radial-gradient(circle at 45% 80%,rgba(255,255,255,.04) 0 1px,transparent 1.5px);
+ background-size:53px 37px,71px 43px,29px 23px}
+.edge{display:none}
+.row{position:relative;z-index:2;display:grid;grid-template-columns:7.2em minmax(0,1fr) auto;gap:14px;align-items:center;width:100%;min-height:64px;padding:14px 16px;background:none;border:0;text-align:left;cursor:pointer}
+.row:focus-visible{outline:2px solid var(--amber);outline-offset:-4px;border-radius:8px}
+.era{font-size:14px;color:var(--muted);font-style:italic;line-height:1.25}
+.t{font-size:19px;font-weight:500;line-height:1.2;display:block}
+.p{font-size:14.5px;color:var(--muted);display:block;margin-top:2px}
+.side{display:flex;align-items:center;gap:10px;font-size:14px;color:var(--muted);white-space:nowrap}
+.lamp{width:10px;height:10px;border-radius:50%;background:var(--amber);box-shadow:0 0 0 4px var(--amber-soft),0 0 18px 4px rgba(214,166,94,.45)}
+.soon{font-style:italic}
+.ready .t{color:#fff4de}
+.open .row{padding-bottom:6px}
+.more{position:relative;z-index:2;display:none;padding:0 16px 18px calc(7.2em + 30px)}
+.open .more{display:block}
+.more p{margin:0 0 12px;max-width:32em}
+.play{display:inline-flex;align-items:center;gap:10px;min-height:44px;padding:8px 18px 8px 10px;border-radius:999px;border:1px solid rgba(214,166,94,.55);background:rgba(20,18,15,.35);cursor:pointer;font-size:17px}
+.play:hover{background:rgba(214,166,94,.12)}
+.play:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
+.play i{display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--amber);color:#1a1814}
+.play svg{width:14px;height:14px}
+.dug{color:var(--muted);font-style:italic}
+.bottom{padding:18px 16px 4px;color:var(--muted);font-size:14px;font-style:italic;text-align:center}
+footer{padding:34px 0 10px;color:var(--muted);font-size:15px;display:flex;flex-wrap:wrap;gap:8px 18px;justify-content:space-between}
+
+/* sabit dinleme çubuğu */
+.bar{position:fixed;left:0;right:0;bottom:0;z-index:20;background:rgba(20,18,15,.94);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-top:1px solid var(--rule);padding:10px max(14px,env(safe-area-inset-left,0px)) calc(10px + env(safe-area-inset-bottom,0px))}
+.bar .in{max-width:760px;margin:0 auto;display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:12px;align-items:center}
+.big{width:48px;height:48px;border-radius:50%;border:0;background:var(--amber);color:#1a1814;display:grid;place-items:center;cursor:pointer}
+.big:focus-visible,.skip:focus-visible{outline:2px solid #fff;outline-offset:2px}
+.big svg{width:18px;height:18px}
+.info{display:flex;flex-direction:column;gap:4px}
+.info b{font-weight:500;font-size:16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tl{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
+input[type=range]{flex:1;-webkit-appearance:none;appearance:none;height:22px;background:none;margin:0}
+input[type=range]::-webkit-slider-runnable-track{height:3px;border-radius:2px;background:linear-gradient(var(--amber),var(--amber)) 0/var(--pct,0%) 100% no-repeat,#3a352c}
+input[type=range]::-moz-range-track{height:3px;border-radius:2px;background:#3a352c}
+input[type=range]::-moz-range-progress{height:3px;background:var(--amber)}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:13px;height:13px;border-radius:50%;background:var(--ink);margin-top:-5px}
+input[type=range]::-moz-range-thumb{width:13px;height:13px;border:0;border-radius:50%;background:var(--ink)}
+.skips{display:flex;gap:4px}
+.skip{width:44px;height:44px;border-radius:50%;border:0;background:none;color:var(--muted);cursor:pointer;font-size:13px;display:grid;place-items:center}
+.skip:hover{color:var(--ink)}
+
+@media(max-width:600px){
+ .row{grid-template-columns:minmax(0,1fr) auto;gap:4px 12px}
+ .era{grid-column:1/-1;order:-1}
+ .more{padding-left:16px}
+ .skip.back{display:none}
+}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+@keyframes glow{50%{box-shadow:0 0 0 6px var(--amber-soft),0 0 26px 8px rgba(214,166,94,.55)}}
+.playing .lamp{animation:glow 2.4s ease-in-out infinite}
+</style>
+</head>
+<body>
+<div class="wrap">
+ <header>
+  <a class="mark" href="https://mehmetcihatkeles.com/tarihten/">Tarihten Köpekler</a>
+  <h1>Dinle</h1>
+  <p class="lede">Her bölümde bir kazı. Toprağın, arşivin ya da bir efsanenin altından bir köpek; birkaç dakikalık bir anlatıda.</p>
+  <p class="hint">Katmanlar yukarıdan aşağı, bugünden geçmişe iniyor. Birine dokun, orada açılsın.</p>
+ </header>
+
+ <div class="surface" aria-hidden="true">
+  <svg viewBox="0 0 760 34" preserveAspectRatio="none"><path d="M0 26 C60 22 90 28 150 25 S260 20 330 24 S470 29 540 24 S680 21 760 25 L760 34 L0 34Z" fill="#3d3226"/><path d="M0 26 C60 22 90 28 150 25 S260 20 330 24 S470 29 540 24 S680 21 760 25" fill="none" stroke="#6b5a40" stroke-width="1.5"/></svg>
+  <span class="now">yüzey · bugün</span>
+ </div>
+
+ <div class="section" id="kesit"></div>
+ <p class="bottom">Kazı sürüyor. Yeni katmanlar açıldıkça burada.</p>
+
+ <footer>
+  <span>Anlatı: Jessica · Yazı ve kurgu: Mehmet Cihat Keleş</span>
+  <a href="https://mehmetcihatkeles.com/tarihten/">Okumayı seçenler için yazılar</a>
+ </footer>
+</div>
+
+<div class="bar" role="region" aria-label="Dinleme">
+ <div class="in">
+  <button class="big" id="pp" aria-label="Oynat"></button>
+  <div class="info">
+   <b id="nowt">Bölüm 2 · Hayırsızada'ya Giden Mavnalar</b>
+   <div class="tl"><span id="cur">0:00</span><input id="seek" type="range" min="0" max="170" step="1" value="0" aria-label="Konum"><span id="dur">2:50</span></div>
+  </div>
+  <div class="skips">
+   <button class="skip back" id="b15" aria-label="15 saniye geri">−15</button>
+   <button class="skip" id="f15" aria-label="15 saniye ileri">+15</button>
+  </div>
+ </div>
+</div>
+<audio id="au" preload="metadata"></audio>
+
+<script>
+{
+const EP=[
+ {n:10,era:"Bugün",t:"Saraya Giren Köpek",p:"Tayland",d:"Bangkok'ta bir sokakta doğan bir köpek, kralın en sevdiği köpek olur; bir gün de bir mahkeme dosyasına girer.",c:"#3d3226"},
+ {n:9,era:"1957",t:"Laika'nın Yörüngesi",p:"Sovyetler Birliği",d:"Moskova sokaklarından toplanan bir köpek, yörüngeye çıkan ilk canlı olur. Başına geleni kırk beş yıl kimse söylemez.",c:"#342a20"},
+ {n:7,era:"1925",t:"Buzun Üstündeki Serum",p:"Alaska",d:"Kışın ortasında bir kasabaya serum yetiştirmek için koşan kızak takımları ve şöhretin yanlış köpeğe gitmesi.",c:"#3b2c22"},
+ {n:8,era:"1912",t:"Kızaktaki Son Köpek",p:"Antarktika",d:"Buzun ortasında açlıkla geçen bir dönüş yolu ve kızağı en son çeken köpek.",c:"#2c261f"},
+ {n:2,era:"1910",t:"Hayırsızada'ya Giden Mavnalar",p:"İstanbul, Marmara",d:"Şehrin sokak köpekleri toplanır, mavnalara bindirilir ve Marmara'da çıplak bir kayaya bırakılır. Şehir bunu duyar; mavnalar yine de geri dönmez.",c:"#35291d",src:"audio/02-hayirsizada.mp3",len:"2:50"},
+ {n:5,era:"1800'ler",t:"Boynunda Fıçı Olmayan Köpek",p:"İsviçre Alpleri",d:"Karda kırk kişiyi kurtardığı anlatılan köpek ve boynuna o fıçıyı sonradan asan ressam.",c:"#29221a"},
+ {n:4,era:"1680'ler",t:"Köpek Şogun",p:"Japonya",d:"Köpekleri koruyan yasalarıyla başkenti sarsan, merhametini bir yönetime çeviren hükümdar.",c:"#30231a"},
+ {n:3,era:"1200'ler",t:"Aziz İlan Edilen Tazı",p:"Fransa",d:"Köylülerin aziz saydığı bir tazı ve o kültü yasaklamaya gelen bir engizisyoncu.",c:"#231c15"},
+ {n:6,era:"Efsane",t:"Pazarlığa Gelmeyen Dişi Köpek",p:"Hindistan, Rigveda",d:"Tanrıların köpeği Saramā, çalınan inekleri arar; onu satın almaya çalışanlara boyun eğmez.",c:"#1f1812"},
+ {n:1,era:"14 bin yıl önce",t:"Hasta Yavru",p:"Almanya, Ren kıyısı",d:"Buzul çağından kalma bir mezar ve hasta bir yavru. Birileri ona haftalarca baktı; karşılığında hiçbir şey beklemeden.",c:"#16110c",src:"audio/01-hasta-yavru.mp3",len:"2:59"}
+];
+const LATEST=Math.max(...EP.filter(e=>e.src).map(e=>e.n));
+const PLAY='<svg viewBox="0 0 14 14"><path d="M3 1.5v11l9.5-5.5z" fill="currentColor"/></svg>';
+const PAUSE='<svg viewBox="0 0 14 14"><path d="M2.5 1.5h3.2v11H2.5zM8.3 1.5h3.2v11H8.3z" fill="currentColor"/></svg>';
+const esc=s=>String(s).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
+const edge=(i,c)=>{let d="M0 10 L0 6",x=0;const r=k=>((Math.sin(i*12.9+k*78.2)*43758.5)%1+1)%1;while(x<760){const nx=x+60+r(x)*70,y=2+r(nx)*6;d+=` Q${(x+nx)/2} ${y-3} ${nx} ${y}`;x=nx}return `<svg class="edge" viewBox="0 0 760 10" preserveAspectRatio="none" aria-hidden="true"><path d="${d} L760 10Z" fill="${c}"/></svg>`};
+const kesit=document.getElementById('kesit');
+kesit.innerHTML=EP.map((e,i)=>`<div class="layer${e.src?' ready':''}" id="b${e.n}" style="--c:${e.c}">${i?edge(i,e.c):''}
+ <button class="row" aria-expanded="false" aria-controls="m${e.n}">
+  <span class="era">${esc(e.era)}</span>
+  <span><span class="t">${esc(e.t)}</span><span class="p">${esc(e.p)} · Bölüm ${e.n}</span></span>
+  <span class="side">${e.src?`${esc(e.len)}<span class="lamp" aria-hidden="true"></span>`:'<span class="soon">yakında</span>'}</span>
+ </button>
+ <div class="more" id="m${e.n}">
+  <p>${esc(e.d)}</p>
+  ${e.src?`<button class="play" data-n="${e.n}"><i>${PLAY}</i><span>Dinle</span></button>`:'<p class="dug">Bu katman henüz kazılmadı.</p>'}
+ </div>
+</div>`).join('');
+
+kesit.addEventListener('click',ev=>{
+ const pb=ev.target.closest('.play');
+ if(pb){load(+pb.dataset.n,true);return}
+ const row=ev.target.closest('.row');if(!row)return;
+ const L=row.parentElement,o=!L.classList.contains('open');
+ L.classList.toggle('open',o);row.setAttribute('aria-expanded',o);
+});
+
+const au=document.getElementById('au'),pp=document.getElementById('pp'),seek=document.getElementById('seek'),cur=document.getElementById('cur'),dur=document.getElementById('dur'),nowt=document.getElementById('nowt');
+const fmt=s=>{s=Math.max(0,Math.floor(s||0));return Math.floor(s/60)+':'+String(s%60).padStart(2,'0')};
+let curN=null;
+function load(n,go){
+ const e=EP.find(x=>x.n===n);if(!e||!e.src)return;
+ if(curN!==n){au.src=e.src;curN=n;nowt.textContent='Bölüm '+n+' · '+e.t;
+  if('mediaSession' in navigator){try{navigator.mediaSession.metadata=new MediaMetadata({title:e.t,artist:'Tarihten Köpekler',album:'Dinle'})}catch(_){}}}
+ if(go)toggle(true);
+}
+function toggle(force){
+ if(curN===null)load(LATEST,false);
+ const want=force===true?true:au.paused;
+ if(want){const p=au.play();if(p&&p.catch)p.catch(()=>{})}else au.pause();
+}
+function paint(){
+ const on=!au.paused;pp.innerHTML=on?PAUSE:PLAY;pp.setAttribute('aria-label',on?'Duraklat':'Oynat');
+ document.querySelectorAll('.layer').forEach(l=>l.classList.toggle('playing',on&&l.id==='b'+curN));
+ document.querySelectorAll('.play').forEach(b=>{const me=+b.dataset.n===curN&&on;b.querySelector('i').innerHTML=me?PAUSE:PLAY;b.querySelector('span').textContent=me?'Duraklat':(+b.dataset.n===curN&&au.currentTime>1?'Devam et':'Dinle')});
+}
+document.querySelectorAll('.play').forEach(b=>b.addEventListener('click',ev=>{ev.stopPropagation();const n=+b.dataset.n;if(n===curN){toggle()}else load(n,true)}));
+pp.addEventListener('click',()=>toggle());
+document.getElementById('b15').addEventListener('click',()=>{au.currentTime=Math.max(0,au.currentTime-15)});
+document.getElementById('f15').addEventListener('click',()=>{au.currentTime=Math.min(au.duration||0,au.currentTime+15)});
+const setPct=()=>seek.style.setProperty('--pct',(seek.max?seek.value/seek.max*100:0)+'%');
+seek.addEventListener('input',()=>{au.currentTime=+seek.value;cur.textContent=fmt(seek.value);setPct()});
+au.addEventListener('loadedmetadata',()=>{seek.max=Math.floor(au.duration);dur.textContent=fmt(au.duration)});
+au.addEventListener('timeupdate',()=>{seek.value=Math.floor(au.currentTime);cur.textContent=fmt(au.currentTime);setPct()});
+['play','pause','ended'].forEach(t=>au.addEventListener(t,paint));
+if('mediaSession' in navigator){try{
+ navigator.mediaSession.setActionHandler('play',()=>toggle(true));
+ navigator.mediaSession.setActionHandler('pause',()=>au.pause());
+ navigator.mediaSession.setActionHandler('seekbackward',()=>{au.currentTime=Math.max(0,au.currentTime-15)});
+ navigator.mediaSession.setActionHandler('seekforward',()=>{au.currentTime+=15});
+}catch(_){}}
+document.getElementById('b'+LATEST).classList.add('open');
+document.querySelector('#b'+LATEST+' .row').setAttribute('aria-expanded','true');
+paint();
+}
+</script>
+</body>
+</html>
