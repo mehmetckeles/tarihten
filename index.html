@@ -83,6 +83,7 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 .nav a:hover, .nav button:hover, .nav .on { color: var(--fg); }
 #progress { position: absolute; left: 0; bottom: -1px; height: 2px; width: 0; background: var(--accent); }
 @media (max-width: 640px) { .mark .author, .mark .sep { display: none; } .nav { gap: .95rem; font-size: .98rem; } .mark { font-size: 1.12rem; } }
+@media (max-width: 420px) { .nav { gap: .6rem; font-size: .9rem; } .mark { font-size: 1rem; white-space: nowrap; } }
 
 main {
   padding-left: max(16px, env(safe-area-inset-left, 0px));
@@ -326,6 +327,7 @@ footer {
     <nav class="nav" aria-label="Site">
       <a href="#/kesfet" id="nav-kesfet">Keşfet</a>
       <button type="button" data-random="1" title="Rastgele bir yazı (R)">Rastgele</button>
+      <a href="/tarihten/dinle/" id="nav-dinle">Dinle</a>
       <button type="button" id="theme-btn">Gece</button>
     </nav>
   </div>
